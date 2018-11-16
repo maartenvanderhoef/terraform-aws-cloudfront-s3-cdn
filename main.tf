@@ -153,6 +153,8 @@ resource "aws_cloudfront_distribution" "default" {
     default_ttl            = "${var.default_ttl}"
     min_ttl                = "${var.min_ttl}"
     max_ttl                = "${var.max_ttl}"
+
+    lambda_function_association = ["${var.lambda_function_associations}"]
   }
 
   restrictions {
@@ -169,7 +171,7 @@ resource "aws_cloudfront_distribution" "default" {
 
 module "dns" {
   source           = "git::https://github.com/cloudposse/terraform-aws-route53-alias.git?ref=tags/0.2.5"
-  enabled          = "${var.enabled}"
+  enabled          = "${var.enabled && var.dns_aliases_enabled}"
   aliases          = "${var.aliases}"
   parent_zone_id   = "${var.parent_zone_id}"
   parent_zone_name = "${var.parent_zone_name}"

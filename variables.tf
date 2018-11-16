@@ -36,6 +36,11 @@ variable "enabled" {
   description = "Select Enabled if you want CloudFront to begin processing requests as soon as the distribution is created, or select Disabled if you do not want CloudFront to begin processing requests after the distribution is created."
 }
 
+variable "dns_aliases_enabled" {
+  default     = "true"
+  description = "Set to false to prevent dns records for aliases from being created"
+}
+
 variable "acm_certificate_arn" {
   description = "Existing ACM Certificate ARN"
   default     = ""
@@ -204,6 +209,14 @@ variable "min_ttl" {
 variable "max_ttl" {
   default     = "31536000"
   description = "Maximum amount of time (in seconds) that an object is in a CloudFront cache"
+}
+
+variable "lambda_function_associations" {
+  type = "list"
+
+  # e.g.  [{ event_type = "origin-response", lambda_arn = "arn:aws:lambda:us-east-1:xx:function:xx:1" }]
+  default     = []
+  description = "A list of maps with lambda function associations"
 }
 
 variable "geo_restriction_type" {
